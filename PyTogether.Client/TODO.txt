@@ -1,4 +1,3 @@
 ﻿CLIENT
 
-1) Needs to send name data along with connection http://www.youtube.com/watch?v=tbYvDeTJVHQ
-2) Document that Clients can only receive Messages (for now)
+Nothing here!

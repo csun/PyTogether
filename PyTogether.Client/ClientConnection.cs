@@ -47,6 +47,8 @@ namespace PyTogether.Client
 
         private void endConnect(System.IAsyncResult result)
         {
+            handler.Send(System.Text.Encoding.ASCII.GetBytes(clientName));
+
             handler.EndConnect(result);
             OnConnect();
             beginReceive();
