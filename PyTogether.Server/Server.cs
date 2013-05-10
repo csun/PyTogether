@@ -124,8 +124,6 @@ namespace PyTogether.Server
             RemoteClientInfo client = new RemoteClientInfo(clientName, HandleCompleteData, handler);
             addNewClient(client);
 
-            //Get ready to receive data from client
-            client.BeginReceive();
             //Get ready to accept another connection
             beginAccept();
         }

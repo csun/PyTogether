@@ -18,22 +18,30 @@ namespace PyTogether.Server
         /// <summary>
         /// StreamData representing currently received data
         /// </summary>
-        public StreamData IncomingData { get; set; }
+        private StreamData incomingData;
 
+        /// <summary>
+        /// Create a new RemoteClientInfo and begin receiving data.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="HandlingMethod"></param>
+        /// <param name="sock"></param>
         public RemoteClientInfo(string Name, HandleDelegate HandlingMethod, Socket sock)
             : base(Name)
         {
             this.HandlingMethod = HandlingMethod;
             Handler = sock;
-            IncomingData = new StreamData();
+            incomingData = new StreamData();
+
+            beginReceive();
         }
 
         /// <summary>
         /// Calls Handler.BeginReceive with the proper arguments. Makes code look cleaner.
         /// </summary>
-        public void BeginReceive()
+        private void beginReceive()
         {
-            Handler.BeginReceive(IncomingData.ReceiveBuffer, 0, IncomingData.ReceiveBuffer.Length,
+            Handler.BeginReceive(incomingData.ReceiveBuffer, 0, incomingData.ReceiveBuffer.Length,
                         SocketFlags.None, new System.AsyncCallback(endReceive), null);
         }
         public override void SendMessageToClient(Message m)
@@ -47,19 +55,19 @@ namespace PyTogether.Server
 
             if (bytesRead > 0)
             {
-                IncomingData.AddBufferedData(bytesRead);
+                incomingData.AddBufferedData(bytesRead);
 
-                if (IncomingData.IsComplete())
+                if (incomingData.IsComplete())
                 {
                     //Route the now complete Message data
-                    HandlingMethod(IncomingData, this);
+                    HandlingMethod(incomingData, this);
                     //Reset current data and get ready to receive more data
-                    IncomingData.Clear();
-                    BeginReceive();
+                    incomingData.Clear();
+                    beginReceive();
                 }
                 else
                 {
-                    BeginReceive();
+                    beginReceive();
                 }
             }
         }
