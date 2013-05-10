@@ -19,7 +19,7 @@ namespace PyTogether.Server
         /// <summary>
         /// Path to file detailing initial utility modules to import on startup
         /// </summary>
-        private const string INIT_MODULES_FILE = @"\modules\initials.cfg";
+        private const string INIT_MODULES_FILE = @"modules\initials.cfg";
 
         //--------Fields--------//
         public string Name { get; set; }

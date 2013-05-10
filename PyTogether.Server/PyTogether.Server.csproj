@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="ChannelInfo.cs" />
     <Compile Include="ClientInfo.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="RemoteClientInfo.cs" />
     <Compile Include="ScriptedClientInfo.cs" />
     <Compile Include="Server.cs" />
