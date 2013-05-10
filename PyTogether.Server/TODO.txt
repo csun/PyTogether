@@ -1,0 +1,8 @@
+﻿SERVER
+
+1) Get Server stuff running
+	a) RouteMessage
+		i) in ChannelInfo.SendToAll(Message m), convert back to StreamData
+		ii) findAndEvaluate - use string result=engine.Execute<string>("Test.test2(3)", scope);
+	b) Add password compatability to Server adding clients
+	c) Document that Clients can only be sent Messages, and cannot process other data (for now)

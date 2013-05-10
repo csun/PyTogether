@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PyTogether.Client", "PyTogether.Client\PyTogether.Client.csproj", "{CDF7CFDD-94F2-4648-BAFF-FA655F4A2728}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PyTogether.Network", "PyTogether.Network\PyTogether.Network.csproj", "{2BF674DE-E2EE-46E8-BEB2-EEB68D9B1510}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PyTogether.Server", "PyTogether.Server\PyTogether.Server.csproj", "{72E8797A-44E1-43F3-90E1-F27801B306E9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDF7CFDD-94F2-4648-BAFF-FA655F4A2728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF7CFDD-94F2-4648-BAFF-FA655F4A2728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF7CFDD-94F2-4648-BAFF-FA655F4A2728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF7CFDD-94F2-4648-BAFF-FA655F4A2728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BF674DE-E2EE-46E8-BEB2-EEB68D9B1510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BF674DE-E2EE-46E8-BEB2-EEB68D9B1510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BF674DE-E2EE-46E8-BEB2-EEB68D9B1510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BF674DE-E2EE-46E8-BEB2-EEB68D9B1510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72E8797A-44E1-43F3-90E1-F27801B306E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72E8797A-44E1-43F3-90E1-F27801B306E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72E8797A-44E1-43F3-90E1-F27801B306E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72E8797A-44E1-43F3-90E1-F27801B306E9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
