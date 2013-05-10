@@ -35,13 +35,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Suite256.PyTogether.Network\PyTogether.Network.csproj">
+    <ProjectReference Include="..\PyTogether.Network\PyTogether.Network.csproj">
       <Project>{2bf674de-e2ee-46e8-beb2-eeb68d9b1510}</Project>
       <Name>PyTogether.Network</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClientConnection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
