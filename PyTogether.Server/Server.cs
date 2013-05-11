@@ -49,11 +49,9 @@ namespace PyTogether.Server
         /// </summary>
         public void Run()
         {
-            IPHostEntry localHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress localAddress = localHostInfo.AddressList[0];
-            IPEndPoint localEndPoint = new IPEndPoint(localAddress, PORT);
+            IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, PORT);
 
-            listenSocket = new Socket(AddressFamily.InterNetworkV6, SocketType.Stream, ProtocolType.Tcp);
+            listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             listenSocket.Bind(localEndPoint);
             listenSocket.Listen(16);
 
