@@ -35,7 +35,8 @@ namespace PyTogether.Client
 
         public void BeginConnect(IPAddress address, int port)
         {
-            handler.BeginConnect(address, port, endConnect, null);
+            handler = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            handler.BeginConnect(new IPEndPoint(address, port), endConnect, null);
         }
         public void BeginSend(byte[] data, StreamData.DataType type)
         {
@@ -48,8 +49,8 @@ namespace PyTogether.Client
         private void endConnect(System.IAsyncResult result)
         {
             handler.Send(System.Text.Encoding.ASCII.GetBytes(clientName));
-
             handler.EndConnect(result);
+
             OnConnect();
             beginReceive();
         }
