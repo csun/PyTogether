@@ -31,13 +31,19 @@ namespace PyTogether.Client
         private void onReceive(Network.Message m)
         {
             if (!messageTabs.TabPages.ContainsKey(m.ChannelName))
-                addNewTab(m.ChannelName);
+                addNewChannelTab(m.ChannelName);
 
-            TextBox display=(TextBox)messageTabs.TabPages[m.ChannelName].Controls["messagesText"];
-            display.Text += "\n" + m.Text;
+            string displayText = messageTabs.TabPages[m.ChannelName].Controls["messagesText"].Text;
+            displayText += m.Text + @"
+";
+            messageTabs.TabPages[m.ChannelName].Controls["messagesText"].Text = displayText;
         }
 
-        private void addNewTab(string name)
+        /// <summary>
+        /// Add new tab to display channel messages
+        /// </summary>
+        /// <param name="name">Name of the channel for the tab to represent</param>
+        private void addNewChannelTab(string name)
         {
             TabPage tab = new TabPage(name);
             tab.Name = name;
@@ -78,6 +84,11 @@ namespace PyTogether.Client
 
             ChannelRequest r = new ChannelRequest(channelName, pass, ChannelRequest.RequestType.Join);
             connection.BeginSend(r.ConvertToBytes(), StreamData.DataType.ChannelRequest);
+
+            addNewChannelTab(channelName);
+
+            channelNameTextBox.Text = "";
+            passwordTextBox.Text = "";
         }
         private void createButton_Click(object sender, EventArgs e)
         {

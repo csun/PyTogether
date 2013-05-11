@@ -34,7 +34,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.messageTabs = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.Lobby = new System.Windows.Forms.TabPage();
             this.messagesText = new System.Windows.Forms.TextBox();
             this.ipTextBox = new System.Windows.Forms.TextBox();
             this.usernameTextBox = new System.Windows.Forms.TextBox();
@@ -59,7 +59,7 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.messageTabs.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.Lobby.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -132,22 +132,22 @@
             // 
             // messageTabs
             // 
-            this.messageTabs.Controls.Add(this.tabPage1);
+            this.messageTabs.Controls.Add(this.Lobby);
             this.messageTabs.Location = new System.Drawing.Point(12, 16);
             this.messageTabs.Name = "messageTabs";
             this.messageTabs.SelectedIndex = 0;
             this.messageTabs.Size = new System.Drawing.Size(503, 380);
             this.messageTabs.TabIndex = 0;
             // 
-            // tabPage1
+            // Lobby
             // 
-            this.tabPage1.Controls.Add(this.messagesText);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(495, 354);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Lobby";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.Lobby.Controls.Add(this.messagesText);
+            this.Lobby.Location = new System.Drawing.Point(4, 22);
+            this.Lobby.Name = "Lobby";
+            this.Lobby.Size = new System.Drawing.Size(495, 354);
+            this.Lobby.TabIndex = 0;
+            this.Lobby.Text = "Lobby";
+            this.Lobby.UseVisualStyleBackColor = true;
             // 
             // messagesText
             // 
@@ -166,6 +166,7 @@
             this.ipTextBox.Name = "ipTextBox";
             this.ipTextBox.Size = new System.Drawing.Size(133, 20);
             this.ipTextBox.TabIndex = 2;
+            this.ipTextBox.Text = "127.0.0.1";
             // 
             // usernameTextBox
             // 
@@ -314,8 +315,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.messageTabs.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.Lobby.ResumeLayout(false);
+            this.Lobby.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -343,7 +344,7 @@
         private System.Windows.Forms.Button createButton;
         private System.Windows.Forms.Label channelNameLabel;
         private System.Windows.Forms.Label passwordLabel;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage Lobby;
         private System.Windows.Forms.TextBox messagesText;
 
     }
