@@ -59,6 +59,10 @@ namespace PyTogether.Server
 
             beginAccept();
             System.Console.WriteLine("Now accepting connections");
+            while (true)
+            {
+                Thread.Sleep(10);
+            }
         }
 
         /// <summary>
