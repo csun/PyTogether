@@ -81,13 +81,14 @@ namespace PyTogether.Server
             int startIndex = text.IndexOf(Message.CODE_ESCAPE);
             while (startIndex != -1)
             {
-                int endIndex = text.IndexOf(Message.CODE_ESCAPE);
+                int endIndex = text.IndexOf(Message.CODE_UNESCAPE);
+
                 string code = text.Substring
-                    (startIndex + Message.CODE_ESCAPE.Length, (endIndex - startIndex) + Message.CODE_UNESCAPE.Length);
-                
+                    ((startIndex + Message.CODE_ESCAPE.Length), (endIndex - (startIndex + Message.CODE_ESCAPE.Length)));
+
                 //Try to resolve the code within the escape sequence
                 bool resolved = true;
-                string result="";
+                string result = "";
                 try
                 {
                     result = engine.Execute<string>(code, scope);
@@ -99,7 +100,7 @@ namespace PyTogether.Server
 
                 if (resolved)
                 {
-                    text=text.Remove(startIndex, (endIndex - startIndex) + Message.CODE_UNESCAPE.Length);
+                    text = text.Remove(startIndex, (endIndex - startIndex) + Message.CODE_UNESCAPE.Length);
                     text = text.Insert(startIndex, result);
                 }
 
