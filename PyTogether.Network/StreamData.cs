@@ -30,11 +30,11 @@ namespace PyTogether.Network
         /// <param name="bytesRead">Bytes to read from buffer</param>
         public void AddBufferedData(int bytesRead)
         {
-            //Last index of currentReceivedData after buffered data is added in
-            int newEnd = CurrentData.Count + bytesRead - 1;
+            //Desired new Count of currentReceivedData after buffered data is added in
+            int newCount = CurrentData.Count + bytesRead;
             CurrentData.AddRange(ReceiveBuffer);
             //Trim the excess empty bytes from buffer
-            CurrentData.RemoveRange(newEnd, CurrentData.Count - newEnd);
+            CurrentData.RemoveRange(newCount, CurrentData.Count - newCount);
         }
         /// <summary>
         /// Returns the actual "meat" of the data: The received bytes sans length/type info
