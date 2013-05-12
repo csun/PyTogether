@@ -205,6 +205,7 @@
             // 
             // sendMessageText
             // 
+            this.sendMessageText.AcceptsTab = true;
             this.sendMessageText.Location = new System.Drawing.Point(26, 419);
             this.sendMessageText.Multiline = true;
             this.sendMessageText.Name = "sendMessageText";

@@ -66,9 +66,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TODO.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\PyTogether.Network\PyTogether.Network.csproj">
       <Project>{2bf674de-e2ee-46e8-beb2-eeb68d9b1510}</Project>
       <Name>PyTogether.Network</Name>
