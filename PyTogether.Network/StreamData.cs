@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PyTogether.Network
 {
@@ -10,6 +11,9 @@ namespace PyTogether.Network
     /// </summary>
     public class StreamData
     {
+    	private const int TYPELEN = 1;
+    	private const int DATA_LENGTH_LEN = 4;
+    	
         public enum DataType : byte { Unknown, Message, ChannelRequest }
 
         public const int DEFAULT_BUFFER_SIZE = 8192;
@@ -60,12 +64,13 @@ namespace PyTogether.Network
         /// <returns></returns>
         public static byte[] FormatDataToSend(byte[] data, DataType type)
         {
-            List<byte> listBytes = new List<byte>(data);
+            byte[] listBytes = new byte[TYPELEN + DATA_LENGTH_LEN + data.Length];
 
-            listBytes.InsertRange(0, System.BitConverter.GetBytes(data.Length));
-            listBytes.Insert(0, (byte)type);
+            listBytes[0] = (byte)type;
+            Array.Copy(BitConverter.GetBytes(data.Length), 0, listBytes, TYPELEN, DATA_LENGTH_LEN);
+            Array.Copy(data, 0, listBytes,TYPELEN + DATA_LENGTH_LEN, data.Length);
 
-            return listBytes.ToArray();
+            return listBytes;
         }
 
         /// <summary>
@@ -77,7 +82,7 @@ namespace PyTogether.Network
             if (CurrentData.Count >= 5)
             {
                 return CurrentData.Count ==
-                    (5 + System.BitConverter.ToInt32(CurrentData.ToArray(), 1));
+                    (5 + BitConverter.ToInt32(CurrentData.ToArray(), 1));
             }
             return false;
         }
