@@ -20,11 +20,13 @@ namespace PyTogether.Network
         public bool IsInject { get; set; }
         public string Text { get; set; }
         public string ChannelName { get; set; }
+        public string Sender { get; set; }
 
-        public Message(string Text, string ChannelName)
+        public Message(string Text, string ChannelName, string Sender = "")
         {
             this.Text = Text;
             this.ChannelName = ChannelName;
+            this.Sender = Sender;
         }
         public Message(byte[] bytes)
         {
@@ -32,12 +34,20 @@ namespace PyTogether.Network
         }
 
         /// <summary>
-        /// Adds "sender: " to the message text
+        /// If there is currently no Sender specified, sets Sender to given Sender's name. If there
+        /// is already a Sender specified, adds given sender data to the front of original Sender's name.
+        /// ie. newestSender.oldSender. In this way, the server can always add info about the client origin of
+        /// the message, while at the same time a different clientside sender can be specified (like a script).
         /// </summary>
         /// <param name="sender">Sender's name</param>
         public void AddSenderPrefix(string sender)
         {
-            Text = sender + ": " + Text;
+            if (Sender == "")
+            {
+                Sender = sender;
+                return;
+            }
+            Sender = sender + '.' + Sender;
         }
 
         /// <summary>
@@ -60,6 +70,9 @@ namespace PyTogether.Network
             byteList.AddRange(System.BitConverter.GetBytes(Text.Length));
             byteList.AddRange(System.Text.Encoding.ASCII.GetBytes(Text));
 
+            byteList.AddRange(System.BitConverter.GetBytes(Sender.Length));
+            byteList.AddRange(System.Text.Encoding.ASCII.GetBytes(Sender));
+
             return byteList.ToArray();
         }
         /// <summary>
@@ -79,6 +92,9 @@ namespace PyTogether.Network
 
                 int textLength = System.BitConverter.ToInt32(bytes, 5 + chanLength);
                 Text = System.Text.Encoding.ASCII.GetString(bytes, 9 + chanLength, textLength);
+
+                int sendLength = System.BitConverter.ToInt32(bytes, 9 + chanLength + textLength);
+                Sender = System.Text.Encoding.ASCII.GetString(bytes, 13 + chanLength + textLength, sendLength);
 
                 return true;
             }
@@ -104,8 +120,11 @@ namespace PyTogether.Network
                 return false;
 
             int textLength = System.BitConverter.ToInt32(bytes, 5 + chanLength);
+            if (13 + chanLength + textLength > bytes.Length)
+                return false;
 
-            return (9 + chanLength + textLength == bytes.Length);
+            int sendLength = System.BitConverter.ToInt32(bytes, 9 + chanLength + textLength);
+            return (13 + chanLength + textLength + sendLength == bytes.Length);
         }
 
     }

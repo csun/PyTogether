@@ -34,6 +34,7 @@ namespace PyTogether.Client
                 addNewChannelTab(m.ChannelName);
 
             string displayText = messageTabs.TabPages[m.ChannelName].Controls["messagesText"].Text;
+            displayText += m.Sender + ": ";
             displayText += m.Text + @"
 ";
             messageTabs.TabPages[m.ChannelName].Controls["messagesText"].Text = displayText;
