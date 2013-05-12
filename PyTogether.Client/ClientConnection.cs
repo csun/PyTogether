@@ -45,6 +45,10 @@ namespace PyTogether.Client
 
             handler.BeginSend(data, 0, data.Length, SocketFlags.None, endSend, null);
         }
+        public bool IsConnected()
+        {
+            return handler.Connected;
+        }
 
         private void endConnect(System.IAsyncResult result)
         {

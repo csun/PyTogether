@@ -70,34 +70,43 @@ namespace PyTogether.Client
         }
         private void sendButton_Click(object sender, EventArgs e)
         {
-            string text = sendMessageText.Text;
-            sendMessageText.Text = "";
+            if (connection != null && connection.IsConnected())
+            {
+                string text = sendMessageText.Text;
+                sendMessageText.Text = "";
 
-            Network.Message m = new Network.Message(text, messageTabs.SelectedTab.Name);
-            m.IsInject = injectCheckBox.CheckState.Equals(CheckState.Checked);
-            connection.BeginSend(m.ConvertToBytes(), StreamData.DataType.Message);
+                Network.Message m = new Network.Message(text, messageTabs.SelectedTab.Name);
+                m.IsInject = injectCheckBox.CheckState.Equals(CheckState.Checked);
+                connection.BeginSend(m.ConvertToBytes(), StreamData.DataType.Message);
+            }
         }
 
         private void joinButton_Click(object sender, EventArgs e)
         {
-            string channelName = channelNameTextBox.Text;
-            string pass = passwordTextBox.Text;
+            if (connection != null && connection.IsConnected())
+            {
+                string channelName = channelNameTextBox.Text;
+                string pass = passwordTextBox.Text;
 
-            ChannelRequest r = new ChannelRequest(channelName, pass, ChannelRequest.RequestType.Join);
-            connection.BeginSend(r.ConvertToBytes(), StreamData.DataType.ChannelRequest);
+                ChannelRequest r = new ChannelRequest(channelName, pass, ChannelRequest.RequestType.Join);
+                connection.BeginSend(r.ConvertToBytes(), StreamData.DataType.ChannelRequest);
 
-            addNewChannelTab(channelName);
+                addNewChannelTab(channelName);
 
-            channelNameTextBox.Text = "";
-            passwordTextBox.Text = "";
+                channelNameTextBox.Text = "";
+                passwordTextBox.Text = "";
+            }
         }
         private void createButton_Click(object sender, EventArgs e)
         {
-            string channelName = channelNameTextBox.Text;
-            string pass = passwordTextBox.Text;
+            if (connection != null && connection.IsConnected())
+            {
+                string channelName = channelNameTextBox.Text;
+                string pass = passwordTextBox.Text;
 
-            ChannelRequest r = new ChannelRequest(channelName, pass, ChannelRequest.RequestType.Create);
-            connection.BeginSend(r.ConvertToBytes(), StreamData.DataType.ChannelRequest);
+                ChannelRequest r = new ChannelRequest(channelName, pass, ChannelRequest.RequestType.Create);
+                connection.BeginSend(r.ConvertToBytes(), StreamData.DataType.ChannelRequest);
+            }
         }
     }
 }
