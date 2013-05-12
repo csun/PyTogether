@@ -98,12 +98,15 @@ namespace PyTogether.Server
                     resolved = false;
                 }
 
+                text = text.Remove(startIndex, (endIndex - startIndex) + Message.CODE_UNESCAPE.Length);
                 if (resolved)
                 {
-                    text = text.Remove(startIndex, (endIndex - startIndex) + Message.CODE_UNESCAPE.Length);
                     text = text.Insert(startIndex, result);
                 }
-
+                else
+                {
+                    text = text.Insert(startIndex, "ERROR");
+                }
                 m.Text = text;
                 startIndex = text.IndexOf(Message.CODE_ESCAPE);
             }
