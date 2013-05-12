@@ -82,7 +82,7 @@ namespace PyTogether.Network
 
                 return true;
             }
-            catch (System.Exception e)
+            catch
             {
                 throw new System.ArgumentOutOfRangeException("Improper format of bytes");
             }

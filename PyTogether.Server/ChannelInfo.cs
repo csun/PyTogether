@@ -51,7 +51,13 @@ namespace PyTogether.Server
         /// <param name="code">Code to inject</param>
         public void Inject(string code)
         {
-            engine.Execute(code, scope);
+            try
+            {
+                engine.Execute(code, scope);
+            }
+            catch
+            {
+            }
         }
         public void SendToAll(Message m)
         {
@@ -93,7 +99,7 @@ namespace PyTogether.Server
                 {
                     result = engine.Execute<string>(code, scope);
                 }
-                catch (System.Exception e)
+                catch
                 {
                     resolved = false;
                 }
