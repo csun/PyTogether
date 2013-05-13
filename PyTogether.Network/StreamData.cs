@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace PyTogether.Network
 {
@@ -11,21 +12,20 @@ namespace PyTogether.Network
     /// </summary>
     public class StreamData
     {
-    	private const int TYPELEN = 1;
-    	private const int DATA_LENGTH_LEN = 4;
-    	
+        private const int TYPELEN = 1;
+        private const int DATA_LENGTH_LEN = 4;
+
         public enum DataType : byte { Unknown, Message, ChannelRequest }
 
         public const int DEFAULT_BUFFER_SIZE = 8192;
         public byte[] ReceiveBuffer { get; set; }
 
-        public List<byte> CurrentData { get; set; }
+        private MemoryStream currentData = new MemoryStream();
 
 
         public StreamData(int bufferSize = DEFAULT_BUFFER_SIZE)
         {
             ReceiveBuffer = new byte[bufferSize];
-            CurrentData = new List<byte>();
         }
 
         /// <summary>
@@ -34,20 +34,20 @@ namespace PyTogether.Network
         /// <param name="bytesRead">Bytes to read from buffer</param>
         public void AddBufferedData(int bytesRead)
         {
-            //Desired new Count of currentReceivedData after buffered data is added in
-            int newCount = CurrentData.Count + bytesRead;
-            CurrentData.AddRange(ReceiveBuffer);
-            //Trim the excess empty bytes from buffer
-            CurrentData.RemoveRange(newCount, CurrentData.Count - newCount);
+            currentData.Write(ReceiveBuffer, 0, bytesRead);
         }
 
         /// <summary>
         /// Returns the actual "meat" of the data: The received bytes sans length/type info
         /// </summary>
         /// <returns></returns>
-        public List<byte> GetPayload()
+        public byte[] GetPayload()
         {
-            return CurrentData.GetRange(5, CurrentData.Count - 5);
+            const int OFF = TYPELEN + DATA_LENGTH_LEN;
+            byte[] data = currentData.GetBuffer();
+            byte[] ret = new byte[data.Length - OFF - 5]; // Is -5 a bug?
+            Array.Copy(data, OFF, ret, 0, ret.Length);
+            return ret;
         }
         
         /// <summary>
@@ -55,7 +55,7 @@ namespace PyTogether.Network
         /// </summary>
         public void Clear()
         {
-        	CurrentData.Clear();
+            currentData = new MemoryStream(); // TODO: Can we replace this with currentData.SetLength(0)?
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace PyTogether.Network
 
             listBytes[0] = (byte)type;
             Array.Copy(BitConverter.GetBytes(data.Length), 0, listBytes, TYPELEN, DATA_LENGTH_LEN);
-            Array.Copy(data, 0, listBytes,TYPELEN + DATA_LENGTH_LEN, data.Length);
+            Array.Copy(data, 0, listBytes, TYPELEN + DATA_LENGTH_LEN, data.Length);
 
             return listBytes;
         }
@@ -81,10 +81,10 @@ namespace PyTogether.Network
         /// <returns>Returns true if all data is accounted for.</returns>
         public bool IsComplete()
         {
-            if (CurrentData.Count >= 5)
+            if (currentData.Length >= TYPELEN + DATA_LENGTH_LEN)
             {
-                return CurrentData.Count ==
-                    (5 + BitConverter.ToInt32(CurrentData.ToArray(), 1));
+                return currentData.Length ==
+                    (TYPELEN + DATA_LENGTH_LEN + BitConverter.ToInt32(currentData.GetBuffer(), 1));
             }
             return false;
         }
@@ -95,8 +95,16 @@ namespace PyTogether.Network
         /// <returns>Returns a DataType</returns>
         public DataType GetDataType()
         {
-            if (CurrentData.Count > 0)
-                return (DataType)CurrentData[0];
+            if (currentData.Length > 0)
+            {
+                foreach (DataType dataType in Enum.GetValues(typeof(DataType)))
+                {
+                    if (currentData.GetBuffer()[0] == (byte)dataType)
+                    {
+                        return dataType;
+                    }
+                }
+            }
             return DataType.Unknown;
         }
     }
