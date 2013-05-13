@@ -33,11 +33,15 @@ namespace PyTogether.Client
             if (!messageTabs.TabPages.ContainsKey(m.ChannelName))
                 addNewChannelTab(m.ChannelName);
 
-            string displayText = messageTabs.TabPages[m.ChannelName].Controls["messagesText"].Text;
-            displayText += m.Sender + ": ";
-            displayText += m.Text + @"
-";
-            messageTabs.TabPages[m.ChannelName].Controls["messagesText"].Text = displayText;
+            RichTextBox text = (RichTextBox)messageTabs.TabPages[m.ChannelName].Controls["messagesText"];
+
+            string nameText = m.Sender + ": ";
+            int boldStartIndex = text.TextLength;
+
+            text.AppendText(nameText+m.Text+"\n");
+            //Bold the Name text
+            text.Select(boldStartIndex, nameText.Length);
+            text.SelectionFont = new Font(text.Font, FontStyle.Bold);
         }
 
         /// <summary>
@@ -49,10 +53,8 @@ namespace PyTogether.Client
             TabPage tab = new TabPage(name);
             tab.Name = name;
 
-            TextBox messagesText = new TextBox();
-            messagesText.Multiline = true;
+            RichTextBox messagesText = new RichTextBox();
             messagesText.ReadOnly = true;
-            messagesText.BackColor = SystemColors.ControlLightLight;
             messagesText.Dock = DockStyle.Fill;
             messagesText.Name = "messagesText";
 
@@ -70,34 +72,43 @@ namespace PyTogether.Client
         }
         private void sendButton_Click(object sender, EventArgs e)
         {
-            string text = sendMessageText.Text;
-            sendMessageText.Text = "";
+            if (connection != null && connection.IsConnected())
+            {
+                string text = sendMessageText.Text;
+                sendMessageText.Text = "";
 
-            Network.Message m = new Network.Message(text, messageTabs.SelectedTab.Name);
-            m.IsInject = injectCheckBox.CheckState.Equals(CheckState.Checked);
-            connection.BeginSend(m.ConvertToBytes(), StreamData.DataType.Message);
+                Network.Message m = new Network.Message(text, messageTabs.SelectedTab.Name);
+                m.IsInject = injectCheckBox.CheckState.Equals(CheckState.Checked);
+                connection.BeginSend(m.ConvertToBytes(), StreamData.DataType.Message);
+            }
         }
 
         private void joinButton_Click(object sender, EventArgs e)
         {
-            string channelName = channelNameTextBox.Text;
-            string pass = passwordTextBox.Text;
+            if (connection != null && connection.IsConnected())
+            {
+                string channelName = channelNameTextBox.Text;
+                string pass = passwordTextBox.Text;
 
-            ChannelRequest r = new ChannelRequest(channelName, pass, ChannelRequest.RequestType.Join);
-            connection.BeginSend(r.ConvertToBytes(), StreamData.DataType.ChannelRequest);
+                ChannelRequest r = new ChannelRequest(channelName, pass, ChannelRequest.RequestType.Join);
+                connection.BeginSend(r.ConvertToBytes(), StreamData.DataType.ChannelRequest);
 
-            addNewChannelTab(channelName);
+                addNewChannelTab(channelName);
 
-            channelNameTextBox.Text = "";
-            passwordTextBox.Text = "";
+                channelNameTextBox.Text = "";
+                passwordTextBox.Text = "";
+            }
         }
         private void createButton_Click(object sender, EventArgs e)
         {
-            string channelName = channelNameTextBox.Text;
-            string pass = passwordTextBox.Text;
+            if (connection != null && connection.IsConnected())
+            {
+                string channelName = channelNameTextBox.Text;
+                string pass = passwordTextBox.Text;
 
-            ChannelRequest r = new ChannelRequest(channelName, pass, ChannelRequest.RequestType.Create);
-            connection.BeginSend(r.ConvertToBytes(), StreamData.DataType.ChannelRequest);
+                ChannelRequest r = new ChannelRequest(channelName, pass, ChannelRequest.RequestType.Create);
+                connection.BeginSend(r.ConvertToBytes(), StreamData.DataType.ChannelRequest);
+            }
         }
     }
 }

@@ -44,9 +44,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TODO.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="ClientConnection.cs" />
     <Compile Include="ClientInterface.cs">
       <SubType>Form</SubType>
