@@ -33,11 +33,15 @@ namespace PyTogether.Client
             if (!messageTabs.TabPages.ContainsKey(m.ChannelName))
                 addNewChannelTab(m.ChannelName);
 
-            string displayText = messageTabs.TabPages[m.ChannelName].Controls["messagesText"].Text;
-            displayText += m.Sender + ": ";
-            displayText += m.Text + @"
-";
-            messageTabs.TabPages[m.ChannelName].Controls["messagesText"].Text = displayText;
+            RichTextBox text = (RichTextBox)messageTabs.TabPages[m.ChannelName].Controls["messagesText"];
+
+            string nameText = m.Sender + ": ";
+            int boldStartIndex = text.TextLength;
+
+            text.AppendText(nameText+m.Text+"\n");
+            //Bold the Name text
+            text.Select(boldStartIndex, nameText.Length);
+            text.SelectionFont = new Font(text.Font, FontStyle.Bold);
         }
 
         /// <summary>
@@ -49,10 +53,8 @@ namespace PyTogether.Client
             TabPage tab = new TabPage(name);
             tab.Name = name;
 
-            TextBox messagesText = new TextBox();
-            messagesText.Multiline = true;
+            RichTextBox messagesText = new RichTextBox();
             messagesText.ReadOnly = true;
-            messagesText.BackColor = SystemColors.ControlLightLight;
             messagesText.Dock = DockStyle.Fill;
             messagesText.Name = "messagesText";
 

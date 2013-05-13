@@ -35,7 +35,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.messageTabs = new System.Windows.Forms.TabControl();
             this.Lobby = new System.Windows.Forms.TabPage();
-            this.messagesText = new System.Windows.Forms.TextBox();
             this.ipTextBox = new System.Windows.Forms.TextBox();
             this.usernameTextBox = new System.Windows.Forms.TextBox();
             this.ipLabel = new System.Windows.Forms.Label();
@@ -50,6 +49,7 @@
             this.createButton = new System.Windows.Forms.Button();
             this.channelNameLabel = new System.Windows.Forms.Label();
             this.passwordLabel = new System.Windows.Forms.Label();
+            this.messagesText = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -148,17 +148,6 @@
             this.Lobby.TabIndex = 0;
             this.Lobby.Text = "Lobby";
             this.Lobby.UseVisualStyleBackColor = true;
-            // 
-            // messagesText
-            // 
-            this.messagesText.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.messagesText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.messagesText.Location = new System.Drawing.Point(0, 0);
-            this.messagesText.Multiline = true;
-            this.messagesText.Name = "messagesText";
-            this.messagesText.ReadOnly = true;
-            this.messagesText.Size = new System.Drawing.Size(495, 354);
-            this.messagesText.TabIndex = 0;
             // 
             // ipTextBox
             // 
@@ -284,6 +273,16 @@
             this.passwordLabel.TabIndex = 15;
             this.passwordLabel.Text = "Password";
             // 
+            // messagesText
+            // 
+            this.messagesText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.messagesText.Location = new System.Drawing.Point(0, 0);
+            this.messagesText.Name = "messagesText";
+            this.messagesText.ReadOnly = true;
+            this.messagesText.Size = new System.Drawing.Size(495, 354);
+            this.messagesText.TabIndex = 0;
+            this.messagesText.Text = "";
+            // 
             // ClientInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -317,7 +316,6 @@
             this.splitContainer2.ResumeLayout(false);
             this.messageTabs.ResumeLayout(false);
             this.Lobby.ResumeLayout(false);
-            this.Lobby.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -346,7 +344,7 @@
         private System.Windows.Forms.Label channelNameLabel;
         private System.Windows.Forms.Label passwordLabel;
         private System.Windows.Forms.TabPage Lobby;
-        private System.Windows.Forms.TextBox messagesText;
+        private System.Windows.Forms.RichTextBox messagesText;
 
     }
 }
