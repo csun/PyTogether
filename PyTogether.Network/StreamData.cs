@@ -45,7 +45,7 @@ namespace PyTogether.Network
         {
             const int OFF = TYPELEN + DATA_LENGTH_LEN;
             byte[] data = currentData.GetBuffer();
-            byte[] ret = new byte[data.Length - OFF - 5]; // Is -5 a bug?
+            byte[] ret = new byte[data.Length - OFF];
             Array.Copy(data, OFF, ret, 0, ret.Length);
             return ret;
         }
