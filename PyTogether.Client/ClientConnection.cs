@@ -75,7 +75,7 @@ namespace PyTogether.Client
                 if (incomingData.IsComplete())
                 {
                     //Tell the owner of this connection to handle the received Message.
-                    Message m = new Message(incomingData.GetFormattedData().ToArray());
+                    Message m = new Message(incomingData.GetPayload().ToArray());
                     OnReceive(m);
 
                     //Reset current data and get ready to receive more data

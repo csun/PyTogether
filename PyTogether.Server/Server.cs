@@ -71,10 +71,10 @@ namespace PyTogether.Server
         {
             switch (data.GetDataType())
             {
-                case Message.DATATYPE: routeMessage(new Message(data.GetFormattedData().ToArray()), sender);
+                case Message.DATATYPE: routeMessage(new Message(data.GetPayload().ToArray()), sender);
                     break;
                 case ChannelRequest.DATATYPE:
-                    handleChannelRequest(new ChannelRequest(data.GetFormattedData().ToArray()), sender);
+                    handleChannelRequest(new ChannelRequest(data.GetPayload().ToArray()), sender);
                     break;
             }
         }

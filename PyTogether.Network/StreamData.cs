@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace PyTogether.Network
 {
     /// <summary>
-    /// Used to contain data being sent over the network. For all streamed data, the first byte of the data 
-    /// details the type of data that the stream describes, which also describes the format that will be 
+    /// Used to contain data being sent over the network. For all streamed data, the first byte of the data
+    /// details the type of data that the stream describes, which also describes the format that will be
     /// used to process it.
     /// The next int descibes the total length of the rest of the data to be sent.
     /// </summary>
@@ -40,20 +40,22 @@ namespace PyTogether.Network
             //Trim the excess empty bytes from buffer
             CurrentData.RemoveRange(newCount, CurrentData.Count - newCount);
         }
+
         /// <summary>
         /// Returns the actual "meat" of the data: The received bytes sans length/type info
         /// </summary>
         /// <returns></returns>
-        public List<byte> GetFormattedData()
+        public List<byte> GetPayload()
         {
             return CurrentData.GetRange(5, CurrentData.Count - 5);
         }
+        
         /// <summary>
         /// Clears current data.
         /// </summary>
         public void Clear()
         {
-            CurrentData = new List<byte>();
+        	CurrentData.Clear();
         }
 
         /// <summary>
