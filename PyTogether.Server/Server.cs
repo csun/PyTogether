@@ -93,14 +93,14 @@ namespace PyTogether.Server
         }
         private void handleChannelRequest(ChannelRequest r, ClientInfo sender)
         {
-            bool channelExists=channels.ContainsKey(r.ChannelName);
+            bool channelExists = channels.ContainsKey(r.ChannelName);
 
             if (r.CurrentRequest == ChannelRequest.RequestType.Join && channelExists)
                 channels[r.ChannelName].AddClient(sender, r.Password);
             else if (r.CurrentRequest == ChannelRequest.RequestType.Leave && channelExists)
-                channels[r.ChannelName].KickClient(sender);
+                channels[r.ChannelName].KickClient(sender.Name);
             else if (r.CurrentRequest == ChannelRequest.RequestType.Create && !channelExists)
-                channels.Add(r.ChannelName,new ChannelInfo(r.ChannelName,engine,engine.CreateScope(),r.Password));
+                channels.Add(r.ChannelName, new ChannelInfo(r.ChannelName, engine, engine.CreateScope(), r.Password));
 
         }
 
@@ -123,7 +123,7 @@ namespace PyTogether.Server
 
             //Create client info and adds them to server lists
             string clientName = System.Text.Encoding.ASCII.GetString(nameData);
-            RemoteClientInfo client = new RemoteClientInfo(clientName, HandleCompleteData, handler);
+            RemoteClientInfo client = new RemoteClientInfo(clientName, HandleCompleteData, KickClient, handler);
             addNewClient(client);
 
             //Get ready to accept another connection
@@ -139,6 +139,12 @@ namespace PyTogether.Server
             allClients.Add(cl.Name, cl);
             channels[DEFAULT_CHANNEL].AddClient(cl, "");
             System.Console.WriteLine("Added client " + cl.Name);
+        }
+        public void KickClient(string name)
+        {
+            foreach (ChannelInfo chanInfo in channels.Values)
+                chanInfo.KickClient(name);
+            allClients.Remove(name);
         }
     }
 }

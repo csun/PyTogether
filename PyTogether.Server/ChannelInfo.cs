@@ -71,9 +71,9 @@ namespace PyTogether.Server
             if (pass == Password)
                 clients.Add(cl.Name, cl);
         }
-        public bool KickClient(ClientInfo cl)
+        public bool KickClient(string name)
         {
-            return clients.Remove(cl.Name);
+            return clients.Remove(name);
         }
 
         /// <summary>
