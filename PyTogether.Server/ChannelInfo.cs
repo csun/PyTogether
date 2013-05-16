@@ -11,15 +11,6 @@ namespace PyTogether.Server
 {
     class ChannelInfo
     {
-        //--------Constants--------//
-        /// <summary>
-        /// Path to folder containing all utility modules
-        /// </summary>
-        private const string UTIL_MODULES_PATH = @"\modules";
-        /// <summary>
-        /// Path to file detailing initial utility modules to import on startup
-        /// </summary>
-        private const string INIT_MODULES_FILE = @"modules\initials.cfg";
 
         //--------Fields--------//
         public string Name { get; set; }
@@ -42,7 +33,6 @@ namespace PyTogether.Server
             this.scope = utilitiesScope;
 
             clients = new Dictionary<string, ClientInfo>();
-            initializeDefaultModules();
         }
 
         /// <summary>
@@ -118,27 +108,5 @@ namespace PyTogether.Server
             }
         }
 
-        /// <summary>
-        /// Loads all utility modules based that the channel has set to run at startup (based on 
-        /// the INIT_MODULES_FILE
-        /// </summary>
-        private void initializeDefaultModules()
-        {
-            //Set search paths
-            ICollection<string> pathVar = engine.GetSearchPaths();
-
-            string fullPath = System.Environment.CurrentDirectory;
-            fullPath += UTIL_MODULES_PATH;
-
-            pathVar.Add(fullPath);
-            engine.SetSearchPaths(pathVar);
-
-            //Import all initial modules
-            string[] moduleNames = System.IO.File.ReadAllLines(INIT_MODULES_FILE);
-            foreach (string s in moduleNames)
-            {
-                engine.Execute("import " + s, scope);
-            }
-        }
     }
 }

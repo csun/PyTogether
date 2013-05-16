@@ -20,7 +20,10 @@ namespace PyTogether.Server
         /// subscribed to it by default.
         /// </summary>
         private const string DEFAULT_CHANNEL = "Lobby";
-
+        /// <summary>
+        /// Name of the file to check for machine-specific import directories
+        /// </summary>
+        private const string PATHS_FILENAME = "import_paths.cfg";
         /// <summary>
         /// Default port to listen on
         /// </summary>
@@ -40,6 +43,7 @@ namespace PyTogether.Server
             channels = new Dictionary<string, ChannelInfo>();
 
             engine = Python.CreateEngine();
+            initializeSearchPaths();
 
             channels.Add(DEFAULT_CHANNEL, new ChannelInfo(DEFAULT_CHANNEL, engine, engine.CreateScope()));
         }
@@ -145,6 +149,30 @@ namespace PyTogether.Server
             foreach (ChannelInfo chanInfo in channels.Values)
                 chanInfo.KickClient(name);
             allClients.Remove(name);
+        }
+
+        /// <summary>
+        /// Sets up the engine so it will search the specified directories when looking for imported modules
+        /// </summary>
+        private void initializeSearchPaths()
+        {
+            try
+            {
+                ICollection<string> enginePaths = engine.GetSearchPaths();
+                string[] userPaths = System.IO.File.ReadAllLines(PATHS_FILENAME);
+
+                foreach (string p in userPaths)
+                {
+                    enginePaths.Add(p);
+                }
+                engine.SetSearchPaths(userPaths);
+            }
+            catch
+            {
+                System.Console.WriteLine("Problem opening " + PATHS_FILENAME +
+                    " to set default engine search paths. Check that file exists");
+
+            }
         }
     }
 }
