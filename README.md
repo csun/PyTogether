@@ -20,6 +20,9 @@ Two plus two equals 4
 
 This is because "str(2+2)"sucessfully evaluates to the string "4" in the in the interpreter. The current strings used to surround escaped code are /* and */
 
+
+To specify the directories that the server searches when importing modules, create a file called import_paths.cfg, and populate it with the global paths that you want the server to search (one path per line).
+
 Building
 ==========
 
