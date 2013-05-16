@@ -104,7 +104,10 @@ namespace PyTogether.Server
             else if (r.CurrentRequest == ChannelRequest.RequestType.Leave && channelExists)
                 channels[r.ChannelName].KickClient(sender.Name);
             else if (r.CurrentRequest == ChannelRequest.RequestType.Create && !channelExists)
+            {
                 channels.Add(r.ChannelName, new ChannelInfo(r.ChannelName, engine, engine.CreateScope(), r.Password));
+                System.Console.WriteLine("Channel " + r.ChannelName + " created with password " + r.Password);
+            }
 
         }
 
@@ -149,6 +152,7 @@ namespace PyTogether.Server
             foreach (ChannelInfo chanInfo in channels.Values)
                 chanInfo.KickClient(name);
             allClients.Remove(name);
+            System.Console.WriteLine(name + " disconnected");
         }
 
         /// <summary>

@@ -11,7 +11,6 @@ namespace PyTogether.Server
 {
     class ChannelInfo
     {
-
         //--------Fields--------//
         public string Name { get; set; }
         public string Password { get; set; }
